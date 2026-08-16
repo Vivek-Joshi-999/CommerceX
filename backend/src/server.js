@@ -20,8 +20,6 @@ app.use("/api/users",userRoutes);
 
 app.use(errorMiddleware);
 
-
-
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
