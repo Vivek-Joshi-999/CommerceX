@@ -18,10 +18,6 @@ app.use("/api/products", productRoutes);
 const userRoutes=require("./routes/userRoutes")
 app.use("/api/users",userRoutes);
 
-const cartRoutes = require("./routes/cartRoutes");
-
-app.use("/api/cart", cartRoutes);
-
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
