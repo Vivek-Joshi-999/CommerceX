@@ -29,7 +29,7 @@ const OrderItemSchema = new mongoose.Schema(
   },
 );
 
-const orderSchema = new mongoose.Schema(
+const OrderSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -37,7 +37,40 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    items: [ OrderItemSchema ],
+    items: [OrderItemSchema],
+
+    shippingAddress: {
+      name: {
+        type: String,
+        required: true,
+      },
+
+      phone: {
+        type: String,
+        required: true,
+      },
+
+      address: {
+        type: String,
+        required: true,
+      },
+
+      city: {
+        type: String,
+        required: true,
+      },
+
+      state: {
+        type: String,
+        required: true,
+      },
+
+      pincode: {
+        type: String,
+        required: true,
+      },
+    },
+
     totalAmount: {
       type: Number,
       required: true,
@@ -46,7 +79,13 @@ const orderSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "confirmed", "shipped", "delivered", "cancelled"],
+      enum: [
+        "pending",
+        "confirmed",
+        "shipped",
+        "delivered",
+        "cancelled",
+      ],
       default: "pending",
     },
   },
@@ -55,4 +94,4 @@ const orderSchema = new mongoose.Schema(
   },
 );
 
-module.exports= mongoose.model("Order", orderSchema);
+module.exports = mongoose.model("Order", OrderSchema);
