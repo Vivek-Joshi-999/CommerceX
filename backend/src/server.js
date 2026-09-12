@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const errorMiddleware= require("./middleware/errorMiddleware")
+const errorMiddleware = require("./middleware/errorMiddleware");
 
 dotenv.config();
 
@@ -14,22 +14,25 @@ app.use(express.json());
 const productRoutes = require("./routes/productRoutes");
 app.use("/api/products", productRoutes);
 
-
-const userRoutes=require("./routes/userRoutes")
-app.use("/api/users",userRoutes);
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/users", userRoutes);
 
 const cartRoutes = require("./routes/cartRoutes");
 
 app.use("/api/cart", cartRoutes);
+
+const orderRoutes = require("./routes/orderRoutes");
+
+app.use("/api/orders", orderRoutes);
 
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-    res.send("CommerceX API is running");
+  res.send("CommerceX API is running");
 });
 
 app.listen(PORT, () => {
-    console.log(`CommerceX backend running on port ${PORT}`);
+  console.log(`CommerceX backend running on port ${PORT}`);
 });

@@ -15,7 +15,7 @@ const createOrder = async (req, res, next) => {
         message: "Cart is empty",
       });
     }
-    const items = cart.item.map((item) => ({
+    const items = cart.items.map((item) => ({
       product: item.product._id,
       name: item.product.name,
       price: item.product.price,
@@ -24,6 +24,7 @@ const createOrder = async (req, res, next) => {
 
     const totalAmount = items.reduce(
       (total, item) => total + item.price * item.quantity,
+      0,
     );
 
     const order = await Order.create({
@@ -83,3 +84,70 @@ const getOrder = async (req, res, next) => {
   }
 };
 
+const updateOrderStatus = async (req, res, next) => {
+  try {
+      const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Order status updated successfully",
+      order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const cancelOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      _id: req.params.id,
+      user: req.user.userId,
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    if(order.status==="shipped" || order.status==="cancelled"|| order.status==="delivered"){
+      return res.status(400).json({
+        success:false,
+        message:"Order cannot be cancelled"
+      })
+    }
+    order.status="cancelled"
+   await order.save();
+
+   return res.status(200).json({
+    success:true,
+    message:"Order cancelled successfully"
+   })
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createOrder,
+  getMyOrders,
+  getOrder,
+  updateOrderStatus,
+  cancelOrder,
+};
