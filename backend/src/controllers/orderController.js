@@ -32,6 +32,9 @@ const createOrder = async (req, res, next) => {
       items,
       shippingAddress,
       totalAmount,
+      paymentMethod:"COD",
+      paymentStatus:"pending",
+      status:"confirmed",
     });
 
     return res.status(201).json({
@@ -112,6 +115,45 @@ const updateOrderStatus = async (req, res, next) => {
   }
 };
 
+const markPaymentPaid  = async (req,res,next)=>{
+  try{
+const order = await Order.findById(req.params.id);
+
+if(!order){
+  return res.status(404).json({
+    success:false,
+    message:"order not found"
+  });
+}
+
+if(order.paymentMethod!=="COD"){
+  return res.status(400).json({
+    success:false,
+    message:"Only COD orders can be marked as paidatus"
+  });
+}
+
+if(order.status!=="delivered"){
+  return res.status(400).json({
+    success:false,
+    message:"Payment status can be change after delivery"
+  })
+}
+order.paymentStatus="paid";
+
+await order.save();
+
+return res.status(200).json({
+  success:true,
+  message:"Successfully marked as paid",
+  order
+})
+  }
+  catch(error){
+    next(error);
+  }
+}
+
 const cancelOrder = async (req, res, next) => {
   try {
     const order = await Order.findOne({
@@ -150,4 +192,5 @@ module.exports = {
   getOrder,
   updateOrderStatus,
   cancelOrder,
+  markPaymentPaid,
 };

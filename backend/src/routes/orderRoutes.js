@@ -10,6 +10,7 @@ const {
   getOrder,
   updateOrderStatus,
   cancelOrder,
+  markPaymentPaid
 } = require("../controllers/orderController");
 
 // User routes
@@ -24,6 +25,13 @@ router.put(
   authMiddleware,
   authorizeRoles("admin"),
   updateOrderStatus
+);
+
+router.put(
+  "/:id/payment",
+  authMiddleware,
+  authorizeRoles("admin"),
+  markPaymentPaid
 );
 
 module.exports = router;
