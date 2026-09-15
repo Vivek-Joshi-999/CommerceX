@@ -14,8 +14,8 @@ const authorizeRoles = require("../middleware/roleMiddlware");
 
 //  Admin only
 router.post("/", authMiddleware, authorizeRoles("admin"), createProduct);
-router.get("/", getProduct);
 router.get("/", getProducts);
+router.get("/:id", getProduct);
 
 //  Admin only
 router.put("/:id", authMiddleware, authorizeRoles("admin"), updateProduct);

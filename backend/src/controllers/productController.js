@@ -24,10 +24,36 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-// GET ALL PRODUCTS
 const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find();
+    const { search } = req.query;
+
+    const filter = {};
+
+    if (search) {
+      filter.$or = [
+        {
+          name: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          description: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          category: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    const products = await Product.find(filter);
 
     return res.status(200).json({
       success: true,
@@ -42,40 +68,18 @@ const getProducts = async (req, res, next) => {
 // GET SINGLE PRODUCT
 const getProduct = async (req, res, next) => {
   try {
-    const { search } = req.query;
+    const product = await Product.findById(req.params.id);
 
-    const filter = {};
-
-    if (search) {
-      filter.$or = [
-        {
-          name: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-
-        {
-          description: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-
-        {
-          category: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-      ];
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
     }
-    const products = await Product.find(filter);
 
     return res.status(200).json({
       success: true,
-      count: products.length,
-      products,
+      product,
     });
   } catch (error) {
     next(error);

@@ -25,6 +25,9 @@ const orderRoutes = require("./routes/orderRoutes");
 
 app.use("/api/orders", orderRoutes);
 
+const aiRoutes = require("./routes/aiRoutes");
+app.use("/api/ai", aiRoutes);
+
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
