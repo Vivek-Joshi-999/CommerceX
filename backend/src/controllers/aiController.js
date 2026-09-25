@@ -13,7 +13,18 @@ const getRecommendations = async (req, res, next) => {
 
     const recommendationText = await generateRecommendations(query);
 
-    const recommendations = JSON.parse(recommendationText);
+    let recommendations;
+
+    try {
+      recommendations = JSON.parse(recommendationText);
+    } catch (error) {
+      console.error("Invalid Gemini JSON:", recommendationText);
+
+      return res.status(503).json({
+        success: false,
+        message: "AI recommendations are temporarily unavailable.",
+      });
+    }
 
     return res.status(200).json({
       success: true,

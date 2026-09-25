@@ -70,12 +70,40 @@ Now generate recommendations ONLY for:
     });
 
     return response.text;
-  } catch (error) {
-    console.error("Gemini API Error:", error);
+  }    catch (error) {
+    console.error("Gemini API error:", error);
 
-    throw new Error(
-      "AI recommendation service is temporarily unavailable"
+    const status = Number(
+      error?.status ||
+      error?.response?.status ||
+      error?.code
     );
+
+    const errorMessage = String(error?.message || "").toLowerCase();
+
+    const isQuotaError =
+      status === 429 ||
+      errorMessage.includes("quota") ||
+      errorMessage.includes("rate limit") ||
+      errorMessage.includes("resource exhausted");
+
+    if (isQuotaError) {
+      const quotaError = new Error(
+        "AI recommendations are temporarily unavailable. Please try again later."
+      );
+
+      quotaError.statusCode = 429;
+
+      throw quotaError;
+    }
+
+    const aiError = new Error(
+      "Unable to generate AI recommendations right now."
+    );
+
+    aiError.statusCode = 503;
+
+    throw aiError;
   }
 };
 

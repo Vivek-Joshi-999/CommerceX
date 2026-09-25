@@ -1,9 +1,19 @@
 const Product = require("../models/Product");
 
+// ==========================================
 // CREATE PRODUCT
+// ==========================================
+
 const createProduct = async (req, res, next) => {
   try {
-    const { name, description, price, category, stock, image } = req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      stock,
+      image,
+    } = req.body;
 
     const product = await Product.create({
       name,
@@ -24,33 +34,48 @@ const createProduct = async (req, res, next) => {
   }
 };
 
+// ==========================================
+// GET PRODUCTS / SEARCH
+// ==========================================
+
 const getProducts = async (req, res, next) => {
   try {
-    const { search } = req.query;
+    const { search = "", category = "" } = req.query;
 
     const filter = {};
 
-    if (search) {
+    // Simple search
+    if (search.trim()) {
+      const searchTerm = search.trim();
+
       filter.$or = [
         {
           name: {
-            $regex: search,
+            $regex: searchTerm,
             $options: "i",
           },
         },
         {
           description: {
-            $regex: search,
+            $regex: searchTerm,
             $options: "i",
           },
         },
         {
           category: {
-            $regex: search,
+            $regex: searchTerm,
             $options: "i",
           },
         },
       ];
+    }
+
+    // Category filter
+    if (category.trim()) {
+      filter.category = {
+        $regex: `^${category.trim()}$`,
+        $options: "i",
+      };
     }
 
     const products = await Product.find(filter);
@@ -65,7 +90,10 @@ const getProducts = async (req, res, next) => {
   }
 };
 
+// ==========================================
 // GET SINGLE PRODUCT
+// ==========================================
+
 const getProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -86,10 +114,20 @@ const getProduct = async (req, res, next) => {
   }
 };
 
+// ==========================================
 // UPDATE PRODUCT
+// ==========================================
+
 const updateProduct = async (req, res, next) => {
   try {
-    const { name, description, price, category, stock, image } = req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      stock,
+      image,
+    } = req.body;
 
     const product = await Product.findByIdAndUpdate(
       req.params.id,
@@ -104,7 +142,7 @@ const updateProduct = async (req, res, next) => {
       {
         new: true,
         runValidators: true,
-      },
+      }
     );
 
     if (!product) {
@@ -124,7 +162,10 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
+// ==========================================
 // DELETE PRODUCT
+// ==========================================
+
 const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
@@ -145,10 +186,50 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
+// ==========================================
+// CREATE PRODUCTS IN BULK
+// ==========================================
+
+const createProductsBulk = async (req, res, next) => {
+  try {
+    const { products } = req.body;
+
+    if (!Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Products must be a non-empty array",
+      });
+    }
+
+    if (products.length > 100) {
+      return res.status(400).json({
+        success: false,
+        message: "Maximum 100 products can be added at once",
+      });
+    }
+
+    const createdProducts = await Product.insertMany(products);
+
+    return res.status(201).json({
+      success: true,
+      message: `${createdProducts.length} products created successfully`,
+      count: createdProducts.length,
+      products: createdProducts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ==========================================
+// EXPORT
+// ==========================================
+
 module.exports = {
   createProduct,
   getProducts,
   getProduct,
   updateProduct,
   deleteProduct,
+  createProductsBulk,
 };

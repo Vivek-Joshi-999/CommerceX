@@ -1,6 +1,5 @@
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
-
 const createOrder = async (req, res, next) => {
   try {
     const { shippingAddress } = req.body;
@@ -15,6 +14,7 @@ const createOrder = async (req, res, next) => {
         message: "Cart is empty",
       });
     }
+
     const items = cart.items.map((item) => ({
       product: item.product._id,
       name: item.product.name,
@@ -22,20 +22,32 @@ const createOrder = async (req, res, next) => {
       quantity: item.quantity,
     }));
 
-    const totalAmount = items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
+    const subtotal = items.reduce(
+      (total, item) =>
+        total + item.price * item.quantity,
+      0
     );
+
+    const shippingCharge =
+      subtotal >= 499 ? 0 : 49;
+
+    const totalAmount =
+      subtotal + shippingCharge;
 
     const order = await Order.create({
       user: req.user.userId,
       items,
       shippingAddress,
+      shippingCharge,
       totalAmount,
-      paymentMethod:"COD",
-      paymentStatus:"pending",
-      status:"confirmed",
+      paymentMethod: "COD",
+      paymentStatus: "pending",
+      status: "confirmed",
     });
+
+    cart.items = [];
+
+    await cart.save();
 
     return res.status(201).json({
       success: true,

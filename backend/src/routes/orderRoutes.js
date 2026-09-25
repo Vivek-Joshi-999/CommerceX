@@ -1,4 +1,5 @@
 const express = require("express");
+
 const router = express.Router();
 
 const authMiddleware = require("../middleware/authMiddleware");
@@ -10,16 +11,38 @@ const {
   getOrder,
   updateOrderStatus,
   cancelOrder,
-  markPaymentPaid
+  markPaymentPaid,
 } = require("../controllers/orderController");
 
-// User routes
-router.post("/", authMiddleware, createOrder);
-router.get("/", authMiddleware, getMyOrders);
-router.get("/:id", authMiddleware, getOrder);
-router.put("/:id/cancel", authMiddleware, cancelOrder);
+// Create order
+router.post(
+  "/",
+  authMiddleware,
+  createOrder
+);
 
-// Admin route
+// Get logged-in user's orders
+router.get(
+  "/my-orders",
+  authMiddleware,
+  getMyOrders
+);
+
+// Get single order
+router.get(
+  "/:id",
+  authMiddleware,
+  getOrder
+);
+
+// Cancel user's order
+router.put(
+  "/:id/cancel",
+  authMiddleware,
+  cancelOrder
+);
+
+// Admin: update order status
 router.put(
   "/:id/status",
   authMiddleware,
@@ -27,6 +50,7 @@ router.put(
   updateOrderStatus
 );
 
+// Admin: mark COD payment as paid
 router.put(
   "/:id/payment",
   authMiddleware,

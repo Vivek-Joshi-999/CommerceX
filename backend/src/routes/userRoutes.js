@@ -23,7 +23,6 @@ router.put(
 router.delete(
   "/:id",
   authMiddleware,
-  authorizeRoles("admin"),
   deleteUser
 );
 router.post("/login", loginUser);

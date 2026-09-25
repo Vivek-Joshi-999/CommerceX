@@ -110,7 +110,8 @@ const updateCartItem = async (req, res, next) => {
     }
 
     const item = cart.items.find(
-      (item) => item.product.toString() === req.params.productId
+      (item) =>
+        item.product.toString() === req.params.productId
     );
 
     if (!item) {
@@ -124,10 +125,15 @@ const updateCartItem = async (req, res, next) => {
 
     await cart.save();
 
+    // Populate product before sending response
+    const updatedCart = await Cart.findOne({
+      user: req.user.userId,
+    }).populate("items.product");
+
     return res.status(200).json({
       success: true,
       message: "Cart item updated successfully",
-      cart,
+      cart: updatedCart,
     });
   } catch (error) {
     next(error);
@@ -148,7 +154,8 @@ const removeCartItem = async (req, res, next) => {
     }
 
     const item = cart.items.find(
-      (item) => item.product.toString() === req.params.productId
+      (item) =>
+        item.product.toString() === req.params.productId
     );
 
     if (!item) {
@@ -159,15 +166,21 @@ const removeCartItem = async (req, res, next) => {
     }
 
     cart.items = cart.items.filter(
-      (item) => item.product.toString() !== req.params.productId
+      (item) =>
+        item.product.toString() !== req.params.productId
     );
 
     await cart.save();
 
+    // Populate product before sending response
+    const updatedCart = await Cart.findOne({
+      user: req.user.userId,
+    }).populate("items.product");
+
     return res.status(200).json({
       success: true,
       message: "Product removed from cart",
-      cart,
+      cart: updatedCart,
     });
   } catch (error) {
     next(error);
@@ -200,10 +213,71 @@ const clearCart = async (req, res, next) => {
   }
 };
 
+const mergeGuestCart = async (req, res, next) => {
+  try {
+    const { items } = req.body;
+
+    if (!Array.isArray(items)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid cart items",
+      });
+    }
+
+    let cart = await Cart.findOne({
+      user: req.user.userId,
+    });
+
+    if (!cart) {
+      cart = await Cart.create({
+        user: req.user.userId,
+        items: [],
+      });
+    }
+
+    for (const guestItem of items) {
+      const { productId, quantity } = guestItem;
+
+      const product = await Product.findById(productId);
+
+      if (!product) {
+        continue;
+      }
+
+      const existingItem = cart.items.find(
+        (item) => item.product.toString() === productId
+      );
+
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.items.push({
+          product: productId,
+          quantity,
+        });
+      }
+    }
+
+    await cart.save();
+
+    const updatedCart = await Cart.findOne({
+      user: req.user.userId,
+    }).populate("items.product");
+
+    return res.status(200).json({
+      success: true,
+      message: "Guest cart merged successfully",
+      cart: updatedCart,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addToCart,
   getCart,
   updateCartItem,
   removeCartItem,
-  clearCart
+  clearCart,mergeGuestCart
 };

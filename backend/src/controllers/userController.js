@@ -96,18 +96,32 @@ const getUser = async (req, res, next) => {
 };
 const deleteUser = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const requestedUserId = req.params.id;
+    const loggedInUserId = req.user.userId;
+    const loggedInUserRole = req.user.role;
+
+    if (
+      loggedInUserRole !== "admin" &&
+      requestedUserId !== loggedInUserId.toString()
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "You can only delete your own account",
+      });
+    }
+
+    const user = await User.findByIdAndDelete(requestedUserId);
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User Not Found",
+        message: "User not found",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "User deleted successfully",
+      message: "Account deleted successfully",
     });
   } catch (error) {
     next(error);
@@ -121,9 +135,9 @@ const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-       res.status(401).json({
+      return res.status(401).json({
         success: false,
-        message: "Invalid emai or password",
+        message: "Invalid email or password",
       });
     }
 
