@@ -12,9 +12,9 @@ import {
   updateGuestCartItem,
   removeFromGuestCart,
   clearGuestCart,
-} from "../services/guestCartService";
+} from "../../services/guestCartService";
 
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../../utils/formatPrice";
 
 const API_URL = "http://localhost:5000/api/cart";
 

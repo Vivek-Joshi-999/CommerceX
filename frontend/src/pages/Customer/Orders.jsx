@@ -11,9 +11,9 @@ import {
 import {
   getMyOrders,
   cancelOrder,
-} from "../services/orderService";
+} from "../../services/orderService";
 
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../../utils/formatPrice";
 
 function Orders() {
   const navigate = useNavigate();

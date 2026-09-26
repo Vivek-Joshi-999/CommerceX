@@ -9,9 +9,9 @@ import {
   PackageCheck,
 } from "lucide-react";
 
-import { getCart } from "../services/cartService";
-import { createOrder } from "../services/orderService";
-import { formatPrice } from "../utils/formatPrice";
+import { getCart } from "../../services/cartService";
+import { createOrder } from "../../services/orderService";
+import { formatPrice } from "../../utils/formatPrice";
 
 function Checkout() {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 
-import { registerUser } from "../services/authService";
+import { registerUser } from "../../services/authService";
 
 function Register() {
   const navigate = useNavigate();

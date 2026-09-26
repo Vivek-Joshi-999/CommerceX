@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { getProducts } from "../services/productService";
-import ProductCard from "../components/product/ProductCard";
+import { getProducts } from "../../services/productService";
+import ProductCard from "../../components/product/ProductCard";
 
 function Shop() {
   const [searchParams] = useSearchParams();

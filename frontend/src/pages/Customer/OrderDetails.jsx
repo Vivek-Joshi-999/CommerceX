@@ -13,9 +13,9 @@ import {
 import {
   getOrder,
   cancelOrder,
-} from "../services/orderService";
+} from "../../services/orderService";
 
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../../utils/formatPrice";
 
 function OrderDetails() {
   const { id } = useParams();

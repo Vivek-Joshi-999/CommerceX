@@ -6,12 +6,10 @@ import {
   Loader2,
 } from "lucide-react";
 
-import { loginUser } from "../services/authService";
-import { mergeGuestCart } from "../services/cartService";
-import {
-  getGuestCart,
-  clearGuestCart,
-} from "../services/guestCartService";
+import { loginUser } from "../../services/authService";
+import { mergeGuestCart } from "../../services/cartService";
+
+import { getGuestCart } from "../../services/guestCartService";
 
 function Login() {
   const navigate = useNavigate();

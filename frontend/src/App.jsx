@@ -2,25 +2,25 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./layout/Layout";
 
-import Home from "./pages/Home";
-import Shop from "./pages/Shop";
+import Home from "./pages/Customer/Home";
+import Shop from "./pages/Customer/Shop";
 import ProductDetails from "./components/product/ProductDetails";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Cart from "./pages/Customer/Cart";
+import Login from "./pages/Customer/Login";
+import Register from "./pages/Customer/Register";
 import PublicRoute from "./components/auth/PublicRoute";
-import Profile from "./pages/Profile";
-import Orders from "./pages/Orders";
-import Checkout from "./pages/Checkout";
-import OrderDetails from "./pages/OrderDetails";
+import Profile from "./pages/Customer/Profile";
+import Orders from "./pages/Customer/Orders";
+import Checkout from "./pages/Customer/Checkout";
+import OrderDetails from "./pages/Customer/OrderDetails";
 
 import AdminRoute from "./components/auth/AdminRoute";
-import AdminCustomers from "./pages/AdminCustomers";
+import AdminCustomers from "./pages/Admin/AdminCustomers";
 import AdminLayout from "./layout/AdminLayout";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminOrders from "./pages/AdminOrders";
-import AdminOrderDetails from "./pages/AdminOrderDetails";
-import AdminProducts from "./pages/AdminProducts";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminOrders from "./pages/Admin/AdminOrders";
+import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
+import AdminProducts from "./pages/Admin/AdminProducts";
 
 function App() {
   return (
@@ -71,7 +71,10 @@ function App() {
             <Route path="/admin/orders" element={<AdminOrders />} />
             <Route path="/admin/orders/:id" element={<AdminOrderDetails />} />
             <Route path="/admin/products" element={<AdminProducts />} />
-            <Route path="/admin/customers" element={<AdminCustomers />} />
+            <Route
+  path="/admin/customers"
+  element={<AdminCustomers />}
+/>
           </Route>
         </Route>
       </Routes>

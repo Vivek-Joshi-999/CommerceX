@@ -16,7 +16,7 @@ import {
   getProfile,
   updateProfile,
   deleteProfile,
-} from "../services/userService";
+} from "../../services/userService";
 
 function Profile() {
   const navigate = useNavigate();
