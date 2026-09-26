@@ -53,20 +53,30 @@ function ProductCard({ product }) {
       transition={{ duration: 0.2 }}
       className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
     >
-      {/* Product Image */}
+      {/* =========================================
+          PRODUCT IMAGE
+      ========================================= */}
+
       <Link to={`/product/${product._id}`}>
         <div className="relative aspect-square overflow-hidden bg-gray-50">
+
           <img
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-contain p-3 transition-transform duration-300 group-hover:scale-105"
           />
+
         </div>
       </Link>
 
-      {/* Product Information */}
+      {/* =========================================
+          PRODUCT INFORMATION
+      ========================================= */}
+
       <div className="p-4">
+
         <Link to={`/product/${product._id}`}>
+
           <p className="text-xs font-medium text-indigo-600">
             {product.category}
           </p>
@@ -74,10 +84,15 @@ function ProductCard({ product }) {
           <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-[#14245c] transition-colors duration-200 group-hover:text-indigo-600">
             {product.name}
           </h3>
+
         </Link>
 
-        {/* Price + Cart */}
+        {/* =========================================
+            PRICE + CART
+        ========================================= */}
+
         <div className="mt-3 flex items-center justify-between gap-3">
+
           <span className="text-base font-bold text-[#14245c]">
             ₹{formatPrice(product.price)}
           </span>
@@ -109,6 +124,7 @@ function ProductCard({ product }) {
                 : "bg-indigo-600 hover:bg-indigo-700"
             } disabled:cursor-not-allowed disabled:opacity-70`}
           >
+
             {loading ? (
               <Loader2
                 size={16}
@@ -128,8 +144,11 @@ function ProductCard({ product }) {
             ) : (
               <ShoppingCart size={17} />
             )}
+
           </motion.button>
+
         </div>
+
       </div>
     </motion.div>
   );

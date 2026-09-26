@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 function Hero() {
   return (
     <section className="bg-white px-4 pt-5 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-gradient-to-br from-[#f5f7ff] via-[#f8f8ff] to-[#eef5ff]">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-gradient-to-br from-[#bbcbfc] via-[#f8f8ff] to-[#eef5ff]">
         <div className="grid min-h-[430px] items-center gap-8 px-6 py-12 sm:px-10 lg:grid-cols-2 lg:px-12 lg:py-10">
 
           {/* =========================

@@ -3,29 +3,24 @@ import { Mail, MapPin } from "lucide-react";
 
 function Footer() {
   return (
-    <footer className="border-t border-gray-800 bg-[#0b1640] text-white">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="border-t border-[#26376f] bg-[#14245c] text-white">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
 
           {/* Brand */}
           <div>
             <Link
               to="/"
               className="flex items-center gap-2"
-            >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-purple-500">
-                <span className="text-sm font-bold">
-                  CX
-                </span>
-              </div>
+       >
 
-              <span className="text-lg font-bold">
+              <span className="text-base font-bold">
                 CommerceX
               </span>
             </Link>
 
-            <p className="mt-4 max-w-xs text-sm leading-6 text-white">
+            <p className="mt-2 max-w-sm text-xs leading-5 text-indigo-100">
               Your everyday marketplace for electronics,
               fashion, home essentials, beauty, sports,
               and accessories.
@@ -34,57 +29,53 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-white">
               Quick Links
             </h3>
 
-            <ul className="mt-4 space-y-3">
-              <li>
-                <Link
-                  to="/"
-                  className="text-sm text-gray-400 transition hover:text-white"
-                >
-                  Home
-                </Link>
-              </li>
+            <div className="mt-2 flex gap-5">
+              <Link
+                to="/"
+                className="text-xs text-indigo-100 transition-colors hover:text-white"
+              >
+                Home
+              </Link>
 
-              <li>
-                <Link
-                  to="/shop"
-                  className="text-sm text-gray-400 transition hover:text-white"
-                >
-                  Shop
-                </Link>
-              </li>
-            </ul>
+              <Link
+                to="/shop"
+                className="text-xs text-indigo-100 transition-colors hover:text-white"
+              >
+                Shop
+              </Link>
+            </div>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-white">
               Contact
             </h3>
 
-            <div className="mt-4 space-y-4">
+            <div className="mt-2 space-y-2">
 
-              <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2">
                 <MapPin
-                  size={17}
-                  className="mt-0.5 shrink-0 text-white0"
+                  size={15}
+                  className="shrink-0 text-indigo-300"
                 />
 
-                <p className="text-sm leading-5 text-gray-200">
+                <span className="text-xs text-indigo-100">
                   Jaipur, Rajasthan, India
-                </p>
+                </span>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Mail
-                  size={17}
-                  className="shrink-0 ttext-white"
+                  size={15}
+                  className="shrink-0 text-indigo-300"
                 />
 
-                <span className="text-sm text-gray-200">
+                <span className="text-xs text-indigo-100">
                   support@commercex.com
                 </span>
               </div>
@@ -94,9 +85,9 @@ function Footer() {
 
         </div>
 
-        {/* Bottom */}
-        <div className="mt-10 border-t border-white/10 pt-6">
-          <p className="text-center text-xs text-white">
+        {/* Copyright */}
+        <div className="mt-5 border-t border-white/10 pt-4">
+          <p className="text-center text-[11px] text-indigo-200">
             © {new Date().getFullYear()} CommerceX. All rights reserved.
           </p>
         </div>

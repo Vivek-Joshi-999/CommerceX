@@ -32,7 +32,7 @@ const services = [
 function ServiceHighlights() {
   return (
     <section className="bg-white px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-gray-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+      <div className="gap-5 mx-auto grid max-w-7xl grid-cols-1 divide-y divide-gray-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
         {services.map((service, index) => {
           const Icon = service.icon;
 
@@ -46,10 +46,10 @@ function ServiceHighlights() {
                 duration: 0.35,
                 delay: index * 0.08,
               }}
-              className="flex items-center gap-4 px-5 py-5 lg:px-8"
+              className="flex items-center gap-4 px-5 py-5 lg:px-8 bg-indigo-100 rounded-xl "
             >
               {/* Icon */}
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-100">
                 <Icon
                   size={25}
                   strokeWidth={1.8}

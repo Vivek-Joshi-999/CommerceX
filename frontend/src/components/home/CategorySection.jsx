@@ -15,36 +15,42 @@ const categories = [
     icon: Laptop,
     color: "bg-blue-50",
     iconColor: "text-blue-500",
+    iconBg: "bg-blue-100",
   },
   {
     name: "Fashion",
     icon: Shirt,
     color: "bg-purple-50",
     iconColor: "text-purple-500",
+    iconBg: "bg-purple-100",
   },
   {
     name: "Home & Living",
     icon: House,
     color: "bg-amber-50",
     iconColor: "text-amber-500",
+    iconBg: "bg-amber-100",
   },
   {
     name: "Beauty",
     icon: Sparkles,
     color: "bg-pink-50",
     iconColor: "text-pink-500",
+    iconBg: "bg-pink-100",
   },
   {
     name: "Sports",
     icon: Dumbbell,
     color: "bg-green-50",
     iconColor: "text-green-500",
+    iconBg: "bg-green-100",
   },
   {
     name: "Accessories",
     icon: Gem,
     color: "bg-indigo-50",
     iconColor: "text-indigo-500",
+    iconBg: "bg-indigo-100",
   },
 ];
 
@@ -103,10 +109,10 @@ function CategorySection() {
                   delay: index * 0.06,
                 }}
                 whileHover={{ y: -4 }}
-                className="group rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm transition-shadow duration-200 hover:shadow-md"
+                className={`group rounded-2xl border border-gray-100 ${category.color} p-5 text-center shadow-sm transition-shadow duration-200 hover:shadow-md`}
               >
                 <div
-                  className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl ${category.color}`}
+                  className={`mx-auto flex  h-16 w-16 items-center justify-center rounded-2xl ${category.iconBg}`}
                 >
                   <Icon
                     size={30}

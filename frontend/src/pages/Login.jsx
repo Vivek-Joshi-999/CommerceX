@@ -58,6 +58,12 @@ function Login() {
       // Save JWT token
       localStorage.setItem("token", data.token);
 
+      // Save logged-in user
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
+
       // Get guest cart
       const guestCart = getGuestCart();
 
@@ -75,7 +81,9 @@ function Login() {
       }
 
       // Notify Navbar that authentication changed
-      window.dispatchEvent(new Event("authChange"));
+      window.dispatchEvent(
+        new Event("authChange")
+      );
 
       setMessage({
         type: "success",
@@ -88,8 +96,13 @@ function Login() {
 
       const redirect = searchParams.get("redirect");
 
+      // Redirect based on user role
       setTimeout(() => {
-        navigate(redirect || "/");
+        if (data.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate(redirect || "/");
+        }
       }, 800);
     } catch (error) {
       setMessage({

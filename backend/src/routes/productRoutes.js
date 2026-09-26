@@ -7,21 +7,17 @@ const {
   getProduct,
   updateProduct,
   deleteProduct,
-  createProductsBulk,
+  
 } = require("../controllers/productController");
 
 const authMiddleware = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddlware");
 
+router.get("/:id", getProduct);
+router.get("/", getProducts);
 //  Admin only
 router.post("/", authMiddleware, authorizeRoles("admin"), createProduct);
-router.get("/", getProducts);
-router.get("/:id", getProduct);
-router.post(
-  "/bulk",
 
-  createProductsBulk
-);
 
 //  Admin only
 router.put("/:id", authMiddleware, authorizeRoles("admin"), updateProduct);

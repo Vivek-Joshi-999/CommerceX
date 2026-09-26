@@ -42,7 +42,8 @@ const createOrder = async (req, res, next) => {
       totalAmount,
       paymentMethod: "COD",
       paymentStatus: "pending",
-      status: "confirmed",
+      paymentStatus: "pending",
+      status: "pending",
     });
 
     cart.items = [];

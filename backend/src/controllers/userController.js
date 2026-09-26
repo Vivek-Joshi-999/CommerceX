@@ -128,6 +128,9 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+
+
+  
 const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -141,11 +144,14 @@ const loginUser = async (req, res, next) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
 
     if (!isMatch) {
-    return res.status(400).json({
-        status: false,
+      return res.status(401).json({
+        success: false,
         message: "Invalid email or password",
       });
     }
@@ -158,15 +164,20 @@ const loginUser = async (req, res, next) => {
       process.env.JWT_SECRET,
       {
         expiresIn: "1d",
-      },
+      }
     );
+
     res.status(200).json({
       success: true,
       message: "Login successful",
       token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
-
-  
   } catch (error) {
     next(error);
   }
